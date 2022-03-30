@@ -8,10 +8,10 @@ function getRandomInt(max) {
 }
 
 //https://stackoverflow.com/questions/563406/how-to-add-days-to-date
-Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
 }
 
 function generateCSVContent(size, sampleColumns = 7) {
@@ -24,24 +24,20 @@ function generateCSVContent(size, sampleColumns = 7) {
     let timetochangedate = getRandomInt(100);
     let addDays = getRandomInt(365);
     let entriesForThatDate = 0;
+    rows.push(chunks.slice());
     for (;datasets < size; datasets++) {
-        let row = [];
         for (let i = 0; i < sampleColumns; i++) {
-            console.log(tally);
-            console.log(tally % chunks.length);
-            row.push(chunks[tally % chunks.length]);
-            chunks[0] = date.toDateString();
+            chunks[0] = date.toLocaleDateString();
             entriesForThatDate++;
             if (entriesForThatDate == timetochangedate) {
-                date.addDays(addDays)
-                console.log(date.toDateString())
+                date = this.addDays(date, addDays);
                 entriesForThatDate = 0;
                 timetochangedate = getRandomInt(100);
                 addDays = getRandomInt(365);
             }
             tally++;
         }
-        rows.push(row);
+        rows.push(chunks.slice());
     }
 
     if (tally > 100000) {
